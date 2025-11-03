@@ -71,6 +71,7 @@ The solution operates at the **AAOS Framework Layer**, centralizing resource orc
 ### 6.2. Application Lifecycle Diagram Description
 
 -----
+<img width="587" height="840" alt="rotation" src="https://github.com/user-attachments/assets/27834f57-2b7c-441c-8532-a27128d78963" />
 
   * **Comparison:** Contrasts the default lifecycle (`onDestroy` $\rightarrow$ `onCreate`) with the RRO approach: **Configuration Change** $\rightarrow$ **WMS RRO Switch** $\rightarrow$ `onConfigurationChanged()` $\rightarrow$ **Compose/View Redraw**.
 
@@ -102,3 +103,17 @@ private void applyRROandRotate(int newRotation) {
     sendConfigurationChangeToApps(); 
 }
 ```
+## 7\. ❓ Assumtions/queries
+
+
+ * **VHAL Integration Success (Assumption):** We assume the physical rotation event is reliably detected and communicated from the Vehicle ECU to the Vehicle HAL (VHAL), and subsequently exposed to the Android framework via the Car Service.
+
+* **Rotation Lock Strategy (Query):** We need a policy decision on how rotation is blocked while driving. Should this be an absolute hardware lock enforced by the ECU, or a software lock enforced by the Car Service checking the drive state? (This impacts system robustness and safety.)
+
+* **Legacy/Non-Compliant App Handling (Query):** What is the specific strategy and required level of testing for legacy applications that might not handle configuration changes gracefully or may not adhere to modern resource standards?
+
+* **AOSP Patching Privilege (Assumption):** We assume the development team has the necessary access and permission to modify and compile the core WindowManagerService (WMS).
+
+* **3rd Party App Compliance (Assumption):** We assume that all 3rd party applications running on the system will include the critical android:configChanges="orientation|screenLayout|screenSize" flag in their manifest to prevent activity restarts.
+
+* **Fixed Orientation Apps are Unaffected (Assumption):** We confirm that applications with a hard-coded fixed orientation (set via manifest) will not be impacted by the dynamic RRO switch, as Android's framework prioritizes the manifest declaration. This ensures backward compatibility for rigid apps.

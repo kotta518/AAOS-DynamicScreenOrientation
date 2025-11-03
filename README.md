@@ -64,7 +64,7 @@ The solution operates at the **AAOS Framework Layer**, centralizing resource orc
 
 -----
 
-  * **Flow:** **VHAL** $\rightarrow$ **WMS (Patched)** $\rightarrow$ **IOverlayManager (RRO Switch)** $\rightarrow$ **WMS (Broadcast Config Change)** $\rightarrow$ **Application UI Update**.
+  * **Flow:** **VHAL** $\rightarrow$ **CarService** $\rightarrow$ **WMS (Patched)** $\rightarrow$ **IOverlayManager (RRO Switch)** $\rightarrow$ **WMS (Broadcast Config Change)** $\rightarrow$ **Application UI Update**.
 
   * **Key Action:** The WMS simultaneously enables one RRO (e.g., Landscape) and disables the other (e.g., Portrait), *then* broadcasts the system configuration change.
 
